@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style1.css">
+    <title>Zarządzanie Zawodnikami</title>
+</head>
+<body>
+    <div class="main-container">
+        <div class="form-container">
+            <h1>Dodaj Zawodnika</h1>
+            <form id="form">
+                <label for="name">Imię i Nazwisko:</label>
+                <input type="text" id="name" required>
+                <label for="purchase">Cena Zakupu:</label>
+                <input type="number" id="purchase" required>
+                <label for="sale">Cena Sprzedaży:</label>
+                <input type="number" id="sale" required>
+                <label for="quantity">Liczba Transakcji:</label>
+                <input type="number" id="quantity" value="1" min="1">
+                <button type="submit">Dodaj Zawodnika</button>
+                <button type="button" id="clearCookiesButton">Wyczyść Ciasteczka 🍪</button>
+            </form>
+        </div>
+        <div class="profiles-container" id="player-profiles">
+            <h2>Profile Zawodników</h2>
+        </div>
+    </div>
+    <div class="total-profit">
+        <h3>Łączny Zysk: <span id="totalProfit">0.00</span> coins</h3>
+    </div>
+    <script src="js.js"></script>
+</body>
+</html>
