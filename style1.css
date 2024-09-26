@@ -1,0 +1,149 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #181818;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.main-container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    /* Maksymalna szerokość kontenera */
+}
+
+.form-container {
+    background-color: #242424;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 300px; /* Szerokość formularza */
+    height: 700px;
+    margin-right: 20px; /* Odstęp między formularzem a profilami */
+}
+
+h1, h2 {
+    text-align: center;
+    color: #fff;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    color: white; /* Kolor etykiet na biały */
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: white; /* Ustaw kolor tekstu na biały */
+    background-color: #221f1f; /* Ciemne tło dla pól */
+}
+
+button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.profiles-container {
+    margin-top: 20px;
+    flex-grow: 1; /* Pozwól, by kontener profili zajmował pozostałą przestrzeń */
+    background-color: #242424;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);  
+    overflow-y: scroll;
+    height: 800px;
+}
+
+.result-item {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Zmniejszone odstępy między elementami */
+    padding: 2px; /* Zmniejszono wysokość profilu */
+   border: 2px solid rgba(189, 189, 189, 0.301);
+   border-radius: 4px;
+    position: relative;
+    transition: box-shadow 0.3s;
+  
+}
+
+.result-item:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.result-item img {
+    width: 80px; /* Zmniejszono rozmiar zdjęcia */
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #dbdbdb;
+}
+
+.player-details {
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    gap: 5px; /* Zmniejszone odstępy między tekstem */
+}
+
+.purchase, .sale {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Mniejsze odstępy dla tekstu */
+}
+
+input.quantity-input {
+    width: 50px; /* Zmniejszona szerokość pola ilości */
+}
+
+.profit {
+    color: green;
+    font-weight: bold;
+}
+
+.profit.negative {
+    color: red; /* Czerwony, jeśli zysk jest ujemny */
+}
+
+.remove-button {
+    background-color: transparent; /* Przezroczysty tło */
+    border: none;
+    cursor: pointer;
+    font-size: 20px; /* Zwiększ rozmiar emotki */
+    color: red; /* Czerwony kolor dla przycisku usuwania */
+    position: absolute; /* Aby umieścić w rogu */
+    top: 5px;
+    right: 5px;
+}
+
+.total-profit {
+    margin-left: 20px;
+    text-align: center;
+    color: rgb(87, 211, 15);
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #242424;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(13, 58, 15, 0.5);
+}
