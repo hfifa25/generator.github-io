@@ -3,33 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style1.css">
-    <title>Zarządzanie Zawodnikami</title>
+    <title>Generator Ikon Konferencji</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            margin: 20px;
+            background-color: #f7f7f7;
+        }
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #203253;
+        }
+        .checkbox-container, .slider-container {
+            margin-bottom: 20px;
+        }
+        canvas {
+            border: 1px solid #ccc;
+            display: block;
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.0);
+        }
+        button {
+            font-family: 'Georgia', serif;
+            font-size: 18px;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            font-family: 'Georgia', serif;
+            font-size: 16px;
+            color: #0000ee;
+        }
+        .slider-container span {
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div class="main-container">
-        <div class="form-container">
-            <h1>Dodaj Zawodnika</h1>
-            <form id="form">
-                <label for="name">Imię i Nazwisko:</label>
-                <input type="text" id="name" required>
-                <label for="purchase">Cena Zakupu:</label>
-                <input type="number" id="purchase" required>
-                <label for="sale">Cena Sprzedaży:</label>
-                <input type="number" id="sale" required>
-                <label for="quantity">Liczba Transakcji:</label>
-                <input type="number" id="quantity" value="1" min="1">
-                <button type="submit">Dodaj Zawodnika</button>
-                <button type="button" id="clearCookiesButton">Wyczyść Ciasteczka 🍪</button>
-            </form>
-        </div>
-        <div class="profiles-container" id="player-profiles">
-            <h2>Profile Zawodników</h2>
-        </div>
+    <h1>Wyposażenie Sali</h1>
+    <div class="checkbox-container">
+        <label><input type="checkbox" value="Oświetlenie" data-icon="fa-lightbulb"> Oświetlenie</label><br>
+        <label><input type="checkbox" value="Projektor" data-icon="fa-video"> Projektor</label><br>
+        <label><input type="checkbox" value="Wi-Fi" data-icon="fa-wifi"> Wi-Fi</label><br>
+        <label><input type="checkbox" value="Nagłośnienie" data-icon="fa-volume-up"> Nagłośnienie</label><br>
+        <label><input type="checkbox" value="Klimatyzacja" data-icon="fa-fan"> Klimatyzacja</label><br>
+        <label><input type="checkbox" value="Tablica" data-icon="fa-chalkboard"> Tablica</label><br>
+        <label><input type="checkbox" value="Mikrofon" data-icon="fa-microphone"> Mikrofon</label><br>
+        <label><input type="checkbox" value="Dla niepełnosprawnych" data-icon="fa-wheelchair"> Dla niepełnosprawnych</label><br>
     </div>
-    <div class="total-profit">
-        <h3>Łączny Zysk: <span id="totalProfit">0.00</span> coins</h3>
+    
+    <!-- Suwaki do zmiany rozmiaru -->
+    <div class="slider-container">
+        <label for="width-slider">Szerokość:</label>
+        <input type="range" id="width-slider" min="400" max="1200" value="800">
+        <span id="width-value">800</span> px
     </div>
-    <script src="js.js"></script>
+    
+    <div class="slider-container">
+        <label for="height-slider">Wysokość:</label>
+        <input type="range" id="height-slider" min="200" max="800" value="200">
+        <span id="height-value">200</span> px
+    </div>
+    
+    <button onclick="generateImage()">Generuj obraz</button>
+    <a id="download-link" style="display: none;" download="ikony_konferencji.png">Pobierz obraz</a>
+    <canvas id="canvas" width="800" height="200"></canvas>
+
+    <script>
+        // Funkcja do generowania obrazu
+        function generateImage() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Wyczyszczenie canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]:checked');
+            const elements = [];
+            const lastElement = []; // Zmienna do przechowywania "Dla niepełnosprawnych"
+
+            // Oddzielnie zapisujemy "Dla niepełnosprawnych" na końcu
+            checkboxes.forEach((checkbox) => {
+                const iconClass = checkbox.getAttribute('data-icon');
+                const text = checkbox.value;
+
+                if (text === "Dla niepełnosprawnych") {
+                    lastElement.push({ iconClass, text });
+                } else {
+                    elements.push({ iconClass, text });
+                }
+            });
+
+            const allElements = [...elements, ...lastElement];
+
+            // Pobieranie wartości z sliderów
+            const width = document.getElementById('width-slider').value;
+            const height = document.getElementById('height-slider').value;
+
+            // Ustawienie rozmiaru canvas
+            canvas.width = width;
+            canvas.height = height;
+
+            // Rysowanie tekstu "Wyposażenie Sali" na górze, wycentrowanego
+            ctx.fillStyle = '#203253';
+            ctx.font = '32px Georgia';
+            const text = 'Wyposażenie Sali';
+            const textWidth = ctx.measureText(text).width;
+            ctx.fillText(text, (canvas.width - textWidth) / 2, 40);
+
+            let x = 20; // Pozycja początkowa na osi X
+            let y = 100; // Początkowa pozycja na osi Y (po napisie)
+            const boxWidth = 160;
+            const boxHeight = 80;
+            const padding = 10;
+            const borderRadius = 15; // Zaokrąglenie boksu
+            const backgroundColor = '#ebf0fa'; // Delikatny niebieski
+            const textColor = '#203253';
+            const lineHeight = 100; // Odstęp między liniami
+
+            allElements.forEach((item) => {
+                const { iconClass, text } = item;
+
+                // Rysowanie tła boksu
+                ctx.fillStyle = backgroundColor;
+                ctx.beginPath();
+                ctx.moveTo(x + borderRadius, y);
+                ctx.lineTo(x + boxWidth - borderRadius, y);
+                ctx.quadraticCurveTo(x + boxWidth, y, x + boxWidth, y + borderRadius);
+                ctx.lineTo(x + boxWidth, y + boxHeight - borderRadius);
+                ctx.quadraticCurveTo(x + boxWidth, y + boxHeight, x + boxWidth - borderRadius, y + boxHeight);
+                ctx.lineTo(x + borderRadius, y + boxHeight);
+                ctx.quadraticCurveTo(x, y + boxHeight, x, y + boxHeight - borderRadius);
+                ctx.lineTo(x, y + borderRadius);
+                ctx.quadraticCurveTo(x, y, x + borderRadius, y);
+                ctx.closePath();
+                ctx.fill();
+
+                // Rysowanie ikony
+                ctx.fillStyle = textColor;
+                ctx.font = '30px FontAwesome';
+                const icon = getFontAwesomeIcon(iconClass);
+                ctx.fillText(icon, x + padding, y + padding + 30); // Ikona w boksie
+
+                // Rysowanie tekstu
+                ctx.font = '14px Georgia';
+                ctx.fillText(text, x + padding, y + boxHeight - padding); // Tekst w boksie
+
+                // Przesunięcie w prawo na następny element
+                x += boxWidth + 20;
+
+                // Przepełnienie linii - przejście do nowej linii
+                if (x + boxWidth > canvas.width) {
+                    x = 20;
+                    y += lineHeight;
+                }
+            });
+
+            // Pokazanie linku do pobrania
+            const downloadLink = document.getElementById('download-link');
+            downloadLink.style.display = 'inline';
+            downloadLink.href = canvas.toDataURL('image/png');
+        }
+
+        // Funkcja do uzyskiwania ikony FontAwesome
+        function getFontAwesomeIcon(iconClass) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = `<i class="fa ${iconClass}"></i>`;
+            document.body.appendChild(tempDiv);
+            const icon = window.getComputedStyle(tempDiv.firstChild, ':before').content;
+            document.body.removeChild(tempDiv);
+            return icon.replace(/"/g, '');
+        }
+
+        // Aktualizacja wartości sliderów
+        document.getElementById('width-slider').addEventListener('input', function() {
+            document.getElementById('width-value').textContent = this.value;
+        });
+
+        document.getElementById('height-slider').addEventListener('input', function() {
+            document.getElementById('height-value').textContent = this.value;
+        });
+    </script>
 </body>
 </html>
